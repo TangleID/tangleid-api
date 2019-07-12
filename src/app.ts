@@ -4,7 +4,7 @@ import * as Router from 'koa-router';
 import * as cors from '@koa/cors';
 
 // controllers
-import { TangleIdCtrl, mount as mountIdentity } from './controllers/TangleIdCtrl';
+import { IdentifierCtrl, mount as mountIdentifier } from './controllers/IdentifierCtrl';
 import { CredentialCtrl, mount as mountCredential } from './controllers/CredentialCtrl';
 import { TangleIdService } from './services/TangleIdService';
 
@@ -46,11 +46,11 @@ export const createApp = async (): Promise<Koa> => {
 
   const tangleidService = new TangleIdService();
 
-  const tangleIdCtrl = new TangleIdCtrl(tangleidService);
+  const identifierCtrl = new IdentifierCtrl(tangleidService);
   const credentialCtrl = new CredentialCtrl(tangleidService);
 
   // mount controllers
-  mountIdentity(apiRouter, tangleIdCtrl);
+  mountIdentifier(apiRouter, identifierCtrl);
   mountCredential(apiRouter, credentialCtrl);
 
   rootRouter.use('/api', apiRouter.routes());

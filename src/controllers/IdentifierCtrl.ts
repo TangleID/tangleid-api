@@ -5,7 +5,7 @@ import * as Boom from 'boom';
 import { TangleIdService } from '../services/TangleIdService';
 import { generateSeed } from '../uitils';
 
-export class TangleIdCtrl {
+export class IdentifierCtrl {
   private tangleidService: TangleIdService;
   constructor(tangleidService: TangleIdService) {
     this.tangleidService = tangleidService;
@@ -47,7 +47,7 @@ export class TangleIdCtrl {
   }
 }
 
-export const mount = (apiRouter: Router, ctrl: TangleIdCtrl) => {
+export const mount = (apiRouter: Router, ctrl: IdentifierCtrl) => {
   const router = new Router();
 
   router.get('/:did', ctrl.reslove);
