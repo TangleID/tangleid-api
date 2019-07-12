@@ -2,18 +2,15 @@ import * as Router from 'koa-router';
 import { Context } from 'koa';
 import * as Boom from 'boom';
 
-import { TANGLEID_IRI } from '../config';
+import { TangleIdService } from '../services/TangleIdService';
+import { generateSeed } from '../uitils';
 
-// @ts-ignore
-import { register, resolver, IdenityRegistry } from '@tangleid/did';
-
-// TangleID API only register/resolve the identity in main-net.
-const registry = new IdenityRegistry({
-  providers: {
-    '0x1': TANGLEID_IRI,
-  },
-});
 export class TangleIdCtrl {
+  private tangleidService: TangleIdService;
+  constructor(tangleidService: TangleIdService) {
+    this.tangleidService = tangleidService;
+  }
+
   public register = async (ctx: Context) => {
     const {
       publicKey,
@@ -25,11 +22,8 @@ export class TangleIdCtrl {
       throw Boom.badRequest('publicKey does not exist');
     }
 
-    const { seed, did, document } = await register({
-      network: '0x1',
-      publicKey,
-      registry,
-    });
+    const seed = generateSeed();
+    const { did, document } = await this.tangleidService.registerIdentifier('0x1', seed, [publicKey]);
     ctx.status = 201;
     ctx.body = {
       did,
@@ -45,7 +39,7 @@ export class TangleIdCtrl {
     }
 
     try {
-      const document = await resolver(did, registry);
+      const document = await this.tangleidService.resolveIdentifier(did);
       ctx.body = document;
     } catch (error) {
       throw Boom.notFound('identity not found');

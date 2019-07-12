@@ -46,7 +46,7 @@ export const createApp = async (): Promise<Koa> => {
 
   const tangleidService = new TangleIdService();
 
-  const tangleIdCtrl = new TangleIdCtrl();
+  const tangleIdCtrl = new TangleIdCtrl(tangleidService);
   const credentialCtrl = new CredentialCtrl(tangleidService);
 
   // mount controllers

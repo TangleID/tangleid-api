@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@babel/runtime@^7.4.2":
-  version "7.4.3"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.3.tgz#79888e452034223ad9609187a0ad1fe0d2ad4bdc"
-  integrity sha512-9lsJwJLxDh/T3Q3SZszfWOTkk3pHbkmH+3KY+zwIDmsNlxsumuhS2TH3NIpktU4kNvfzy+k3eLT7aTJSPTo0OA==
-  dependencies:
-    regenerator-runtime "^0.13.2"
-
 "@hapi/address@2.x.x":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
@@ -170,21 +163,6 @@
     "@tangleid/did" "^1.2.0"
     "@tangleid/jsonld" "^1.2.0"
     jsonld "^1.6.0"
-
-"@tangleid/did@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@tangleid/did/-/did-1.1.1.tgz#c891cf9375882718d030e0a571f876fa7b5f438e"
-  integrity sha512-8qUL6HSz2MahYqfvIRPKgKhaDghJRItfSq0xE8Aja6d9iHVa6+0CD5KXbM+Alrp+PDXsSpnqSKwrkkDuVy9rtA==
-  dependencies:
-    "@babel/runtime" "^7.4.2"
-    base-x "^3.0.4"
-    buffer "^5.2.0"
-    did-resolver "0.0.4"
-    js-sha3 "^0.8.0"
-    mam.client.js "git+https://git@github.com/iotaledger/mam.client.js.git"
-    mam.tools.js "git+https://github.com/TangleID/mam.tools.js.git#develop"
-    node-forge "^0.8.2"
-    tic.api.js "git+https://github.com/TangleID/tic.api.js.git#develop"
 
 "@tangleid/did@^1.2.0":
   version "1.2.0"
@@ -2724,11 +2702,6 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
-
-regenerator-runtime@^0.13.2:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.2.tgz#32e59c9a6fb9b1a4aff09b4930ca2d4477343447"
-  integrity sha512-S/TQAZJO+D3m9xeN1WTI8dLKBBiRgXBlTJvbWjCThHWZj9EvHK70Ff50/tYj2J/fvBY6JtFVwRuazHN2E7M9BA==
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
