@@ -25,7 +25,7 @@ export const createApp = async (): Promise<Koa> => {
       ctx.status = statusCode;
       // tslint:disable-next-line:no-console
       console.log(statusCode);
-      ctx.body = {message: err.message};
+      ctx.body = { message: err.message };
     }
   });
   app.use(koaBody({ multipart: true }));
@@ -42,7 +42,7 @@ export const createApp = async (): Promise<Koa> => {
     ctx.body = 'User-agent: *\nAllow:';
   });
 
-  rootRouter.all('*'  , corsMid);
+  rootRouter.all('*', corsMid);
 
   const tangleidService = new TangleIdService();
 
@@ -55,5 +55,6 @@ export const createApp = async (): Promise<Koa> => {
 
   rootRouter.use('/api', apiRouter.routes());
   app.use(rootRouter.routes());
+
   return app;
 };
