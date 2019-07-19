@@ -2,14 +2,17 @@ import * as Router from 'koa-router';
 import { Context } from 'koa';
 import * as Boom from 'boom';
 
+import { CryptoService } from '../services/CryptoService';
 import { TangleIdService } from '../services/TangleIdService';
 import { CredentialSchema } from './CredentialSchema';
 
 export class CredentialCtrl {
+  private cryptoService: CryptoService;
   private tangleidService: TangleIdService;
   private credentialSchema = new CredentialSchema();
 
-  constructor(tangleidService: TangleIdService) {
+  constructor(cryptoService: CryptoService, tangleidService: TangleIdService) {
+    this.cryptoService = cryptoService;
     this.tangleidService = tangleidService;
   }
 
@@ -21,6 +24,8 @@ export class CredentialCtrl {
     }
 
     const params = result.value;
+    const privateKey = this.cryptoService.decryptPrivateKey(params.privateKeyPem);
+
     const credential = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1'],
       type: ['VerifiableCredential'],
@@ -42,7 +47,7 @@ export class CredentialCtrl {
     }
 
     const publicKey = document.publicKey[0];
-    const credentialSigned = await this.tangleidService.signRsaSignature(credential, publicKey, params.privateKeyPem);
+    const credentialSigned = await this.tangleidService.signRsaSignature(credential, publicKey, privateKey);
     ctx.body = credentialSigned;
   }
 
