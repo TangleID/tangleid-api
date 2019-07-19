@@ -6,4 +6,7 @@ createApp().then(app => {
     // tslint:disable-next-line:no-console
     console.log(`🚀 Server ready at port http://localhost:${port}`);
   });
+}).catch(error => {
+  // tslint:disable-next-line:no-console
+  console.log(error);
 });
