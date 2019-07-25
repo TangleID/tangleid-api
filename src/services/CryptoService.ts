@@ -26,17 +26,35 @@ export class CryptoService {
     return publicKeyToPem;
   }
 
-  public encryptPrivateKey(key: string) {
-    const buffer = this.publicKey.encrypt(forge.util.encodeUtf8(key), 'RAW');
-    const encrypted = forge.util.encode64(buffer);
+  public encryptPrivateKey(userKey: string) {
+    const key = forge.random.getBytesSync(16);
+    const iv = forge.random.getBytesSync(16);
 
-    return encrypted;
+    const cipher = forge.cipher.createCipher('AES-CBC', key);
+    cipher.start({ iv });
+    cipher.update(forge.util.createBuffer(userKey));
+    cipher.finish();
+    const encrypted = cipher.output.bytes();
+
+    const keyEncrypted = this.publicKey.encrypt(key);
+
+    return {
+      iv: forge.util.bytesToHex(iv),
+      key: forge.util.encode64(keyEncrypted),
+      encrypted: forge.util.encode64(encrypted),
+    };
   }
 
-  public decryptPrivateKey(encrypted: string) {
-    const buffer = forge.util.decode64(encrypted);
-    const decrypted = forge.util.decodeUtf8(this.privateKey.decrypt(buffer, 'RAW'));
+  public decryptPrivateKey(encrypted: string, key: string, iv: string) {
+    const keyBuffer = forge.util.decode64(key);
+    const keyDecrypted = this.privateKey.decrypt(keyBuffer);
 
-    return decrypted;
+    const buffer = forge.util.decode64(encrypted);
+    const decipher = forge.cipher.createDecipher('AES-CBC', keyDecrypted);
+    decipher.start({ iv: forge.util.hexToBytes(iv) });
+    decipher.update(forge.util.createBuffer(buffer));
+    decipher.finish();
+
+    return decipher.output.toString();
   }
 }

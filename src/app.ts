@@ -6,6 +6,7 @@ import * as cors from '@koa/cors';
 // controllers
 import { IdentifierCtrl, mount as mountIdentifier } from './controllers/IdentifierCtrl';
 import { CredentialCtrl, mount as mountCredential } from './controllers/CredentialCtrl';
+import { DegreeCtrl, mount as mountTuring } from './controllers/degree/DegreeCtrl';
 import { CryptoService } from './services/CryptoService';
 import { TangleIdService } from './services/TangleIdService';
 
@@ -49,11 +50,13 @@ export const createApp = async (): Promise<Koa> => {
   const cryptoService = CryptoService.create('.');
 
   const identifierCtrl = new IdentifierCtrl(tangleidService);
-  const credentialCtrl = new CredentialCtrl(cryptoService, tangleidService);
+  const credentialCtrl = new CredentialCtrl(tangleidService);
+  const degreeCtrl = new DegreeCtrl(cryptoService, tangleidService);
 
   // mount controllers
   mountIdentifier(apiRouter, identifierCtrl);
   mountCredential(apiRouter, credentialCtrl);
+  mountTuring(apiRouter, degreeCtrl);
 
   rootRouter.use('/api', apiRouter.routes());
   rootRouter.get('/api/publicKey', ctx => {
