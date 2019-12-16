@@ -2,32 +2,29 @@ import Joi = require('@hapi/joi');
 
 // tslint:disable-next-line:interface-name
 export interface CredentialSignParams {
-  issuerId: string;
   privateKeyPem: string;
 
-  credentialUri: string;
-  credentialIssuanceDate: string;
+  uri: string;
 
-  subjectId: string;
-  degreeName: string;
-  degreeSchool: string;
+  issuer: string;
+  issuanceDate: string;
+
+  subject: string;
 }
 
 export const SIGN_SCHEMA = Joi.object().keys({
-  issuerId: Joi.string().required(),
   privateKeyPem: Joi.string().required(),
 
-  credentialUri: Joi.string()
+  uri: Joi.string()
     .required()
     .uri(),
 
-  credentialIssuanceDate: Joi.string()
+  issuer: Joi.string().required(),
+  issuanceDate: Joi.string()
     .required()
     .isoDate(),
 
-  subjectId: Joi.string().required(),
-  degreeName: Joi.string().required(),
-  degreeSchool: Joi.string().required(),
+  subject: Joi.string().required(),
 });
 
 // tslint:disable-next-line:interface-name

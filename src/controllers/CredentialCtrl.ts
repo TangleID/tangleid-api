@@ -4,6 +4,7 @@ import * as Boom from 'boom';
 
 import { TangleIdService } from '../services/TangleIdService';
 import { CredentialSchema } from './CredentialSchema';
+import { parseJson } from '../uitils';
 
 export class CredentialCtrl {
   private tangleidService: TangleIdService;
@@ -21,21 +22,21 @@ export class CredentialCtrl {
     }
 
     const params = result.value;
+    const subject = parseJson(params.subject);
+    if (typeof subject !== "object") {
+      throw Boom.badRequest("Invalid subject");
+    }
+
     const credential = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2018/credentials/examples/v1'],
       type: ['VerifiableCredential'],
-      id: params.credentialUri,
-      issuanceDate: params.credentialIssuanceDate,
-      credentialSubject: {
-        id: params.subjectId,
-        degree: {
-          name: params.degreeName,
-          degreeSchool: params.degreeSchool,
-        },
-      },
+      id: params.uri,
+      issuer: params.issuer,
+      issuanceDate: params.issuanceDate,
+      credentialSubject: subject,
     };
 
-    const document = await this.tangleidService.resolveIdentifier(params.issuerId);
+    const document = await this.tangleidService.resolveIdentifier(params.issuer);
 
     if (document.publicKey.length === 0) {
       throw Boom.internal('publicKey not available');

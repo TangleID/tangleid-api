@@ -6,3 +6,16 @@ export const generateSeed = (length = 81) => {
   }
   return buffer;
 };
+
+export const parseJson = (json: string): any => {
+  if (typeof json !== "string") {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(json);
+    return parsed;
+  } catch (error) {
+    return null;
+  }
+};
